@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Application</title>
+</head>
+<body>
+    <div id="container"></div>
+</body>
+</html>
+<script>
+    const server = new WebSocket("ws://localhost:7821");
+    server.onmessage = ({data})=>{
+        data = JSON.parse(data);
+        console.log(data);
+    }
+
+    const container = document.getElementById("container");
+
+    function displayCandidates(candidates) {
+        console.log(candidates)
+        container.innerHTML = "";
+        candidates?.forEach((ele)=>{
+            container.innerHTML += `
+            <div>
+                <p>${ele.name}</p>
+                <p>${ele.votes}</p>
+                <button onclick="vote(${ele.id})">Vote</button>
+                </div>
+            `;
+        });
+    }
+
+    function vote(id) {
+        
+    }
+</script>

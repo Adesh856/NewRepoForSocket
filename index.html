@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with bot</title>
+    <style>
+        #Receivemsg{
+            border: 2px solid black;
+            width: 20%;
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Chat</h1>
+     
+     <h4>Count:<span id="countusers"></span></h4>
+     <div id="Receivemsg">
+      
+     </div>
+     <h4>Send</h4>
+     <input type="text" id="text">
+    <button onclick=sendMessage()>Send</button>
+    
+</body>
+<script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
+</html>
+<script>
+    const socket=io("http://localhost:8000/",{transports:["websocket"]})
+   
+    socket.on("xyz",(msg)=>{
+        console.log(msg)
+     
+    })
+     const Usercount=document.getElementById("countusers")
+    socket.on("newuser",(msg)=>{
+        console.log(msg)
+        Usercount.innerText=msg
+    })
+    const Receivemsg=document.getElementById("Receivemsg")
+    socket.on("ChatwithFriend",(msg)=>{
+        console.log(msg)
+        Receivemsg.append(msg)
+    })
+    const message=document.getElementById("text")
+   
+    const sendMessage=()=>{
+        socket.emit("chat",`${message.value}`)
+    }//receiving message from client
+</script>
